@@ -12,34 +12,37 @@ export class DatabaseService {
       database: "Aviation",
     })
   }
-  public getData(data: any ): any {
+  public getData(data: any): any {
     const res = Object.values(JSON.parse(JSON.stringify(data)))
     res.forEach((v) => console.log(v))
     return res
   }
-  public GetAllAirports(): any {
-    this.connection.query("SELECT * FROM Countries", (err, rows) => {
-      if (err) {
-        console.error(err)
-        throw new InternalServerErrorException("Cannot get airports")
-      }
-      this.getData(rows)
-    })
-    return []
-  }
-  public GetCountriesAirports(country): any {
-    console.log(this.config.get("DB_ROOT_PASSWORD"))
-    this.connection.query(
-      "SELECT * FROM view_all WHERE Country_Name=?",
-      [country],
-      (err, rows) => {
+  public async GetAllAirports(): Promise<any> {
+    return new Promise((res, rej) => {
+      this.connection.query("select * from view_all", (err, results) => {
         if (err) {
           console.error(err)
           throw new InternalServerErrorException("Cannot get airports")
         }
-        return rows
-      },
-    )
-    return []
+        console.log(results)
+        res(results)
+      })
+    })
+  }
+  public GetCountriesAirports(country): any {
+    return new Promise((res, rej) => {
+      this.connection.query(
+        "SELECT * FROM view_all WHERE Country_Name=?",
+        [country],
+        (err, results) => {
+          if (err) {
+            console.error(err)
+            throw new InternalServerErrorException("Cannot get airports")
+          }
+          console.log(results)
+          res(results)
+        },
+      )
+    })
   }
 }
