@@ -12,14 +12,18 @@ export class DatabaseService {
       database: "Aviation",
     })
   }
+  public getData(data: any ): any {
+    const res = Object.values(JSON.parse(JSON.stringify(data)))
+    res.forEach((v) => console.log(v))
+    return res
+  }
   public GetAllAirports(): any {
     this.connection.query("SELECT * FROM Countries", (err, rows) => {
       if (err) {
         console.error(err)
         throw new InternalServerErrorException("Cannot get airports")
       }
-      const res = Object.values(JSON.parse(JSON.stringify(rows)));
-      res.forEach((v) => console.log(v));
+      this.getData(rows)
     })
     return []
   }
