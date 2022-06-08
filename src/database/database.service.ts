@@ -12,7 +12,7 @@ export class DatabaseService {
       database: "Aviation",
     })
   }
-  public GetAirports(): any {
+  public GetAllAirports(): any {
     this.connection.query("SELECT * FROM Countries", (err, rows, fields) => {
       if (err) {
         console.error(err)
