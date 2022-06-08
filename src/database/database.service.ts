@@ -8,19 +8,34 @@ export class DatabaseService {
     this.connection = createConnection({
       host: this.config.get("DB_HOST"),
       user: "root",
-      password: this.config.get("DB_PASSWORD"),
-      database: "airport",
+      password: this.config.get("DB_ROOT_PASSWORD"),
+      database: "Aviation",
     })
   }
   public GetAirports(): any {
-    this.connection.connect()
-    this.connection.query("SELECT * FROM airport-all", (err, rows) => {
+    this.connection.query("SELECT * FROM Countries", (err, rows, fields) => {
       if (err) {
         console.error(err)
         throw new InternalServerErrorException("Cannot get airports")
       }
+      console.log(rows)
       return rows
     })
+    return []
+  }
+  public GetCountriesAirports(country): any {
+    console.log(this.config.get("DB_ROOT_PASSWORD"))
+    this.connection.query(
+      "SELECT * FROM view_all WHERE Country_Name=?",
+      [country],
+      (err, rows) => {
+        if (err) {
+          console.error(err)
+          throw new InternalServerErrorException("Cannot get airports")
+        }
+        return rows
+      },
+    )
     return []
   }
 }

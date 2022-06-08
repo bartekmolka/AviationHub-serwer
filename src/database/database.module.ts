@@ -3,7 +3,7 @@ import { ConfigModule } from "@nestjs/config"
 import { DatabaseService } from "./database.service"
 
 @Module({
-  imports: [ConfigModule.forRoot()],
+  imports: [ConfigModule.forRoot({ isGlobal: true })],
   providers: [DatabaseService],
   exports: [DatabaseService],
 })

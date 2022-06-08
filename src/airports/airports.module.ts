@@ -1,3 +1,4 @@
+import { DatabaseModule } from "./../database/database.module"
 import { Module } from "@nestjs/common"
 import { AirportsController } from "./airports.controller"
 import { AirportsService } from "./airports.service"
@@ -6,5 +7,6 @@ import { AirportsService } from "./airports.service"
   providers: [AirportsService],
   controllers: [AirportsController],
   exports: [AirportsService],
+  imports: [DatabaseModule],
 })
 export class AirportsModule {}
