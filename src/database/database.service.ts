@@ -13,13 +13,13 @@ export class DatabaseService {
     })
   }
   public GetAllAirports(): any {
-    this.connection.query("SELECT * FROM Countries", (err, rows, fields) => {
+    this.connection.query("SELECT * FROM Countries", (err, rows) => {
       if (err) {
         console.error(err)
         throw new InternalServerErrorException("Cannot get airports")
       }
-      console.log(rows)
-      return rows
+      const res = Object.values(JSON.parse(JSON.stringify(rows)));
+      res.forEach((v) => console.log(v));
     })
     return []
   }
