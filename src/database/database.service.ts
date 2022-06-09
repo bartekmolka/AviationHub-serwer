@@ -47,14 +47,17 @@ export class DatabaseService {
   }
   public GetNumberOfRecords(): Promise<number> {
     return new Promise((res, rej) => {
-      this.connection.query("SELECT COUNT(*) FROM view_all", (err, results) => {
-        if (err) {
-          console.error(err)
-          throw new InternalServerErrorException("Cannot get airports")
-        }
-        console.log(results)
-        res(results)
-      })
+      this.connection.query(
+        "SELECT COUNT(*) AS count FROM view_all",
+        (err, results) => {
+          if (err) {
+            console.error(err)
+            throw new InternalServerErrorException("Cannot get airports")
+          }
+          console.log(results)
+          res(results)
+        },
+      )
     })
   }
   public async GetWithLimitAndOffset(

@@ -13,9 +13,12 @@ export class AirportsService {
     return this.databaseService.GetCountriesAirports(country)
   }
   public async getNumberOfRecords(): Promise<any> {
-    return { number: this.databaseService.GetNumberOfRecords() }
+    return (await this.databaseService.GetNumberOfRecords())[0]
   }
   public async getPageOfData(page: number): Promise<any> {
-    return this.databaseService.GetWithLimitAndOffset(pageSize, page * pageSize)
+    return this.databaseService.GetWithLimitAndOffset(
+      page,
+      (page - 1) * pageSize,
+    )
   }
 }
