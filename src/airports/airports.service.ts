@@ -17,7 +17,7 @@ export class AirportsService {
   }
   public async getPageOfData(page: number): Promise<any> {
     return this.databaseService.GetWithLimitAndOffset(
-      page,
+      parseInt(page.toString()),
       (page - 1) * pageSize,
     )
   }
