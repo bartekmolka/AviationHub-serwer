@@ -29,11 +29,42 @@ export class DatabaseService {
       })
     })
   }
-  public GetCountriesAirports(country): any {
+  public async GetCountriesAirports(country: string): Promise<any> {
     return new Promise((res, rej) => {
       this.connection.query(
         "SELECT * FROM view_all WHERE Country_Name=?",
         [country],
+        (err, results) => {
+          if (err) {
+            console.error(err)
+            throw new InternalServerErrorException("Cannot get airports")
+          }
+          console.log(results)
+          res(results)
+        },
+      )
+    })
+  }
+  public GetNumberOfRecords(): Promise<number> {
+    return new Promise((res, rej) => {
+      this.connection.query("SELECT COUNT(*) FROM view_all", (err, results) => {
+        if (err) {
+          console.error(err)
+          throw new InternalServerErrorException("Cannot get airports")
+        }
+        console.log(results)
+        res(results)
+      })
+    })
+  }
+  public async GetWithLimitAndOffset(
+    limit: number,
+    offset: number,
+  ): Promise<any> {
+    return new Promise((res, rej) => {
+      this.connection.query(
+        "SELECT * FROM view_all LIMIT ? OFFSET ?",
+        [limit, offset],
         (err, results) => {
           if (err) {
             console.error(err)
